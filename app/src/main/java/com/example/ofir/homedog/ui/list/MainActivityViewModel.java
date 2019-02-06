@@ -1,8 +1,8 @@
-package com.example.ofir.homedog.UI.List;
+package com.example.ofir.homedog.ui.list;
 
 import android.app.Application;
 
-import com.example.ofir.homedog.Database.Dog;
+import com.example.ofir.homedog.database.Dog;
 import com.example.ofir.homedog.HomeDogRepository;
 
 import java.util.List;

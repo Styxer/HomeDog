@@ -3,9 +3,9 @@ package com.example.ofir.homedog;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import com.example.ofir.homedog.Database.Dog;
-import com.example.ofir.homedog.Database.DogDao;
-import com.example.ofir.homedog.Database.HomeDogDatabase;
+import com.example.ofir.homedog.database.Dog;
+import com.example.ofir.homedog.database.DogDao;
+import com.example.ofir.homedog.database.HomeDogDatabase;
 
 import java.util.List;
 
