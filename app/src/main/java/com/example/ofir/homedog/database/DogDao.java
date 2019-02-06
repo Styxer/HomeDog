@@ -1,4 +1,4 @@
-package com.example.ofir.homedog.Database;
+package com.example.ofir.homedog.database;
 
 import java.util.List;
 

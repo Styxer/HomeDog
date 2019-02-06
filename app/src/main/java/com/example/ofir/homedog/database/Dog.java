@@ -1,4 +1,4 @@
-package com.example.ofir.homedog.Database;
+package com.example.ofir.homedog.database;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "dog_table")
