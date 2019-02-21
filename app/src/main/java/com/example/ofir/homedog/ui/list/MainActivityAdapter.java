@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+
 import com.example.ofir.homedog.GlideApp;
 import com.example.ofir.homedog.R;
 import com.example.ofir.homedog.database.Dog;
@@ -45,7 +45,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         holder.textViewDogAge.setText(currentDog.getAge());
         holder.textViewDogStatus.setText(currentDog.getStatus());
 
-        String dogImage = currentDog.getImageUrl();
+        String dogImage = currentDog.getImage_urls().get(0);
 
         GlideApp.with(context)
                 .load(dogImage)

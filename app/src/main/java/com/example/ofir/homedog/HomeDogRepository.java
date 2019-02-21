@@ -4,8 +4,8 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import com.example.ofir.homedog.database.Dog;
-import com.example.ofir.homedog.database.DogDao;
-import com.example.ofir.homedog.database.HomeDogDatabase;
+import com.example.ofir.homedog.database.localDB.DogDao;
+import com.example.ofir.homedog.database.localDB.HomeDogDatabase;
 
 import java.util.List;
 

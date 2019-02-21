@@ -3,99 +3,113 @@ package com.example.ofir.homedog.database;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.ofir.homedog.database.localDB.ImageUrlsTypeConverters;
+
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = "dog_table")
 public class Dog implements Parcelable {
 
     @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "chip_number")
     @NonNull
-    private String id;
+    private  String  chipNumber;
 
-    private String DOB;
+    private  String name;
+
+    private String gender;
+
+    private String birthday;
 
     private String age;
 
-    private String arrived;
+    @ColumnInfo(name = "arrived_to_the_shelter_at")
+    private String arrivedToTheShelterAt;
 
-    @ColumnInfo(name = "brief_character")
-    private String briefCharacter;
+    @ColumnInfo(name = "time_at_the_shelter")
+    private  String timeAtTheShelter;
 
-    @ColumnInfo(name = "brief_history")
-    private String briefHistory;
+    private String friends;
 
-    @ColumnInfo(name = "extra_details")
-    private String extraDetails;
+    @ColumnInfo(name = "short_history")
+    private String shortHistory;
 
-    @ColumnInfo(name = "getting_along_with_dogs")
-    private String gettingAlongWithDogs;
+    private String character;
 
-    private String leash;
+    @ColumnInfo(name = "gets_along_with_dogs")
+    private  String getsAlongWithDogs;
 
-    private String name;
+    @ColumnInfo(name = "gets_along_with_children")
+    private  String getsAlongWithChildren;
 
-    private String phone;
+    @ColumnInfo(name = "potty_trained")
+    private  String pottyTrained;
 
-    private String race;
+    @ColumnInfo(name = "walking_with_a_leash")
+    private  String  walkingWithALeash;
 
-    private String sex;
+    private  String status;
 
-    private String status;
+    @ColumnInfo(name = "adopters_name")
+    private  String adoptersName;
 
-    @ColumnInfo(name = "suitable_for_children")
-    private String suitableForChildren;
+    @ColumnInfo(name = "adopters_phone_number")
+    private  String adoptersPhoneNumber;
 
-    @ColumnInfo(name = "time_in_kennel")
-    private String timeInKennel;
+    private  String comments;
 
-    private String trained;
+    @TypeConverters(ImageUrlsTypeConverters.class)
+    private List<String> image_urls;
 
-    @ColumnInfo(name = "image_url")
-    private String imageUrl;
 
-    public Dog(String id, String DOB, String age, String arrived, String briefCharacter, String briefHistory, String extraDetails, String gettingAlongWithDogs, String leash, String name, String phone, String race, String sex, String status, String suitableForChildren, String timeInKennel, String trained, String imageUrl) {
-        this.id = id;
-        this.DOB = DOB;
-        this.age = age;
-        this.arrived = arrived;
-        this.briefCharacter = briefCharacter;
-        this.briefHistory = briefHistory;
-        this.extraDetails = extraDetails;
-        this.gettingAlongWithDogs = gettingAlongWithDogs;
-        this.leash = leash;
+    public Dog(String chipNumber, String name, String gender, String birthday, String age, String arrivedToTheShelterAt, String timeAtTheShelter, String friends, String shortHistory, String character, String getsAlongWithDogs, String getsAlongWithChildren, String pottyTrained, String walkingWithALeash, String status, String adoptersName, String adoptersPhoneNumber, String comments, List<String> image_urls) {
+        this.chipNumber = chipNumber;
         this.name = name;
-        this.phone = phone;
-        this.race = race;
-        this.sex = sex;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.age = age;
+        this.arrivedToTheShelterAt = arrivedToTheShelterAt;
+        this.timeAtTheShelter = timeAtTheShelter;
+        this.friends = friends;
+        this.shortHistory = shortHistory;
+        this.character = character;
+        this.getsAlongWithDogs = getsAlongWithDogs;
+        this.getsAlongWithChildren = getsAlongWithChildren;
+        this.pottyTrained = pottyTrained;
+        this.walkingWithALeash = walkingWithALeash;
         this.status = status;
-        this.suitableForChildren = suitableForChildren;
-        this.timeInKennel = timeInKennel;
-        this.trained = trained;
-        this.imageUrl = imageUrl;
+        this.adoptersName = adoptersName;
+        this.adoptersPhoneNumber = adoptersPhoneNumber;
+        this.comments = comments;
+        this.image_urls = image_urls;
     }
 
     protected Dog(Parcel in) {
-        id = in.readString();
-        DOB = in.readString();
-        age = in.readString();
-        arrived = in.readString();
-        briefCharacter = in.readString();
-        briefHistory = in.readString();
-        extraDetails = in.readString();
-        gettingAlongWithDogs = in.readString();
-        leash = in.readString();
+        chipNumber = in.readString();
         name = in.readString();
-        phone = in.readString();
-        race = in.readString();
-        sex = in.readString();
+        gender = in.readString();
+        birthday = in.readString();
+        age = in.readString();
+        arrivedToTheShelterAt = in.readString();
+        timeAtTheShelter = in.readString();
+        friends = in.readString();
+        shortHistory = in.readString();
+        character = in.readString();
+        getsAlongWithDogs = in.readString();
+        getsAlongWithChildren = in.readString();
+        pottyTrained = in.readString();
+        walkingWithALeash = in.readString();
         status = in.readString();
-        suitableForChildren = in.readString();
-        timeInKennel = in.readString();
-        trained = in.readString();
-        imageUrl = in.readString();
+        adoptersName = in.readString();
+        adoptersPhoneNumber = in.readString();
+        comments = in.readString();
+        image_urls = in.createStringArrayList();
     }
 
     public static final Creator<Dog> CREATOR = new Creator<Dog>() {
@@ -110,76 +124,12 @@ public class Dog implements Parcelable {
         }
     };
 
-    public String getId() {
-        return id;
+    public String getChipNumber() {
+        return chipNumber;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDOB() {
-        return DOB;
-    }
-
-    public void setDOB(String DOB) {
-        this.DOB = DOB;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
-    public String getArrived() {
-        return arrived;
-    }
-
-    public void setArrived(String arrived) {
-        this.arrived = arrived;
-    }
-
-    public String getBriefCharacter() {
-        return briefCharacter;
-    }
-
-    public void setBriefCharacter(String briefCharacter) {
-        this.briefCharacter = briefCharacter;
-    }
-
-    public String getBriefHistory() {
-        return briefHistory;
-    }
-
-    public void setBriefHistory(String briefHistory) {
-        this.briefHistory = briefHistory;
-    }
-
-    public String getExtraDetails() {
-        return extraDetails;
-    }
-
-    public void setExtraDetails(String extraDetails) {
-        this.extraDetails = extraDetails;
-    }
-
-    public String getGettingAlongWithDogs() {
-        return gettingAlongWithDogs;
-    }
-
-    public void setGettingAlongWithDogs(String gettingAlongWithDogs) {
-        this.gettingAlongWithDogs = gettingAlongWithDogs;
-    }
-
-    public String getLeash() {
-        return leash;
-    }
-
-    public void setLeash(String leash) {
-        this.leash = leash;
+    public void setChipNumber(String chipNumber) {
+        this.chipNumber = chipNumber;
     }
 
     public String getName() {
@@ -190,28 +140,100 @@ public class Dog implements Parcelable {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getGender() {
+        return gender;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getRace() {
-        return race;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setRace(String race) {
-        this.race = race;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
-    public String getSex() {
-        return sex;
+    public String getAge() {
+        return age;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getArrivedToTheShelterAt() {
+        return arrivedToTheShelterAt;
+    }
+
+    public void setArrivedToTheShelterAt(String arrivedToTheShelterAt) {
+        this.arrivedToTheShelterAt = arrivedToTheShelterAt;
+    }
+
+    public String getTimeAtTheShelter() {
+        return timeAtTheShelter;
+    }
+
+    public void setTimeAtTheShelter(String timeAtTheShelter) {
+        this.timeAtTheShelter = timeAtTheShelter;
+    }
+
+    public String getFriends() {
+        return friends;
+    }
+
+    public void setFriends(String friends) {
+        this.friends = friends;
+    }
+
+    public String getShortHistory() {
+        return shortHistory;
+    }
+
+    public void setShortHistory(String shortHistory) {
+        this.shortHistory = shortHistory;
+    }
+
+    public String getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(String character) {
+        this.character = character;
+    }
+
+    public String getGetsAlongWithDogs() {
+        return getsAlongWithDogs;
+    }
+
+    public void setGetsAlongWithDogs(String getsAlongWithDogs) {
+        this.getsAlongWithDogs = getsAlongWithDogs;
+    }
+
+    public String getGetsAlongWithChildren() {
+        return getsAlongWithChildren;
+    }
+
+    public void setGetsAlongWithChildren(String getsAlongWithChildren) {
+        this.getsAlongWithChildren = getsAlongWithChildren;
+    }
+
+    public String getPottyTrained() {
+        return pottyTrained;
+    }
+
+    public void setPottyTrained(String pottyTrained) {
+        this.pottyTrained = pottyTrained;
+    }
+
+    public String getWalkingWithALeash() {
+        return walkingWithALeash;
+    }
+
+    public void setWalkingWithALeash(String walkingWithALeash) {
+        this.walkingWithALeash = walkingWithALeash;
     }
 
     public String getStatus() {
@@ -222,36 +244,38 @@ public class Dog implements Parcelable {
         this.status = status;
     }
 
-    public String getSuitableForChildren() {
-        return suitableForChildren;
+    public String getAdoptersName() {
+        return adoptersName;
     }
 
-    public void setSuitableForChildren(String suitableForChildren) {
-        this.suitableForChildren = suitableForChildren;
+    public void setAdoptersName(String adoptersName) {
+        this.adoptersName = adoptersName;
     }
 
-    public String getTimeInKennel() {
-        return timeInKennel;
+    public String getAdoptersPhoneNumber() {
+        return adoptersPhoneNumber;
     }
 
-    public void setTimeInKennel(String timeInKennel) {
-        this.timeInKennel = timeInKennel;
+    public void setAdoptersPhoneNumber(String adoptersPhoneNumber) {
+        this.adoptersPhoneNumber = adoptersPhoneNumber;
     }
 
-    public String getTrained() {
-        return trained;
+    public String getComments() {
+        return comments;
     }
 
-    public void setTrained(String trained) {
-        this.trained = trained;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+
+
+    public List<String> getImage_urls() {
+        return image_urls;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage_urls(List<String> image_urls) {
+        this.image_urls = image_urls;
     }
 
     @Override
@@ -261,23 +285,24 @@ public class Dog implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(DOB);
-        dest.writeString(age);
-        dest.writeString(arrived);
-        dest.writeString(briefCharacter);
-        dest.writeString(briefHistory);
-        dest.writeString(extraDetails);
-        dest.writeString(gettingAlongWithDogs);
-        dest.writeString(leash);
+        dest.writeString(chipNumber);
         dest.writeString(name);
-        dest.writeString(phone);
-        dest.writeString(race);
-        dest.writeString(sex);
+        dest.writeString(gender);
+        dest.writeString(birthday);
+        dest.writeString(age);
+        dest.writeString(arrivedToTheShelterAt);
+        dest.writeString(timeAtTheShelter);
+        dest.writeString(friends);
+        dest.writeString(shortHistory);
+        dest.writeString(character);
+        dest.writeString(getsAlongWithDogs);
+        dest.writeString(getsAlongWithChildren);
+        dest.writeString(pottyTrained);
+        dest.writeString(walkingWithALeash);
         dest.writeString(status);
-        dest.writeString(suitableForChildren);
-        dest.writeString(timeInKennel);
-        dest.writeString(trained);
-        dest.writeString(imageUrl);
+        dest.writeString(adoptersName);
+        dest.writeString(adoptersPhoneNumber);
+        dest.writeString(comments);
+        dest.writeStringList(image_urls);
     }
 }

@@ -1,4 +1,6 @@
-package com.example.ofir.homedog.database;
+package com.example.ofir.homedog.database.localDB;
+
+import com.example.ofir.homedog.database.Dog;
 
 import java.util.List;
 
@@ -25,6 +27,6 @@ public interface DogDao {
     @Query("DELETE FROM dog_table")
     void deleteAllNotes();
 
-    @Query("SELECT * FROM DOG_TABLE ORDER BY id DESC")
+    @Query("SELECT * FROM DOG_TABLE ORDER BY chip_number DESC")
     LiveData<List<Dog>> getAllDogsById();
 }
