@@ -3,72 +3,69 @@ package com.example.ofir.homedog.database;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.ofir.homedog.database.localDB.ImageUrlsTypeConverters;
+import com.google.firebase.Timestamp;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 
-@Entity(tableName = "dog_table")
+
+
 public class Dog implements Parcelable {
 
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "chip_number")
-    @NonNull
     private  String  chipNumber;
 
     private  String name;
 
     private String gender;
 
-    private String birthday;
+    private Timestamp birthday;
 
-    private String age;
+    private Double age;
 
-    @ColumnInfo(name = "arrived_to_the_shelter_at")
-    private String arrivedToTheShelterAt;
 
-    @ColumnInfo(name = "time_at_the_shelter")
+    private Timestamp arrivedToTheShelterAt;
+
+
     private  String timeAtTheShelter;
 
     private String friends;
 
-    @ColumnInfo(name = "short_history")
+
     private String shortHistory;
 
     private String character;
 
-    @ColumnInfo(name = "gets_along_with_dogs")
+
     private  String getsAlongWithDogs;
 
-    @ColumnInfo(name = "gets_along_with_children")
+
     private  String getsAlongWithChildren;
 
-    @ColumnInfo(name = "potty_trained")
+
     private  String pottyTrained;
 
-    @ColumnInfo(name = "walking_with_a_leash")
+
     private  String  walkingWithALeash;
 
     private  String status;
 
-    @ColumnInfo(name = "adopters_name")
+
     private  String adoptersName;
 
-    @ColumnInfo(name = "adopters_phone_number")
+
     private  String adoptersPhoneNumber;
 
     private  String comments;
 
-    @TypeConverters(ImageUrlsTypeConverters.class)
+
     private List<String> image_urls;
 
 
-    public Dog(String chipNumber, String name, String gender, String birthday, String age, String arrivedToTheShelterAt, String timeAtTheShelter, String friends, String shortHistory, String character, String getsAlongWithDogs, String getsAlongWithChildren, String pottyTrained, String walkingWithALeash, String status, String adoptersName, String adoptersPhoneNumber, String comments, List<String> image_urls) {
+    public Dog() {
+        //empty constructor needed
+    }
+
+    public Dog(String chipNumber, String name, String gender, Timestamp birthday, Double age, Timestamp arrivedToTheShelterAt, String timeAtTheShelter, String friends, String shortHistory, String character, String getsAlongWithDogs, String getsAlongWithChildren, String pottyTrained, String walkingWithALeash, String status, String adoptersName, String adoptersPhoneNumber, String comments, List<String> image_urls) {
         this.chipNumber = chipNumber;
         this.name = name;
         this.gender = gender;
@@ -94,9 +91,13 @@ public class Dog implements Parcelable {
         chipNumber = in.readString();
         name = in.readString();
         gender = in.readString();
-        birthday = in.readString();
-        age = in.readString();
-        arrivedToTheShelterAt = in.readString();
+        birthday = in.readParcelable(Timestamp.class.getClassLoader());
+        if (in.readByte() == 0) {
+            age = null;
+        } else {
+            age = in.readDouble();
+        }
+        arrivedToTheShelterAt = in.readParcelable(Timestamp.class.getClassLoader());
         timeAtTheShelter = in.readString();
         friends = in.readString();
         shortHistory = in.readString();
@@ -110,6 +111,39 @@ public class Dog implements Parcelable {
         adoptersPhoneNumber = in.readString();
         comments = in.readString();
         image_urls = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(chipNumber);
+        dest.writeString(name);
+        dest.writeString(gender);
+        dest.writeParcelable(birthday, flags);
+        if (age == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(age);
+        }
+        dest.writeParcelable(arrivedToTheShelterAt, flags);
+        dest.writeString(timeAtTheShelter);
+        dest.writeString(friends);
+        dest.writeString(shortHistory);
+        dest.writeString(character);
+        dest.writeString(getsAlongWithDogs);
+        dest.writeString(getsAlongWithChildren);
+        dest.writeString(pottyTrained);
+        dest.writeString(walkingWithALeash);
+        dest.writeString(status);
+        dest.writeString(adoptersName);
+        dest.writeString(adoptersPhoneNumber);
+        dest.writeString(comments);
+        dest.writeStringList(image_urls);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Dog> CREATOR = new Creator<Dog>() {
@@ -148,27 +182,27 @@ public class Dog implements Parcelable {
         this.gender = gender;
     }
 
-    public String getBirthday() {
+    public Timestamp getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Timestamp birthday) {
         this.birthday = birthday;
     }
 
-    public String getAge() {
+    public Double getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Double age) {
         this.age = age;
     }
 
-    public String getArrivedToTheShelterAt() {
+    public Timestamp getArrivedToTheShelterAt() {
         return arrivedToTheShelterAt;
     }
 
-    public void setArrivedToTheShelterAt(String arrivedToTheShelterAt) {
+    public void setArrivedToTheShelterAt(Timestamp arrivedToTheShelterAt) {
         this.arrivedToTheShelterAt = arrivedToTheShelterAt;
     }
 
@@ -268,41 +302,11 @@ public class Dog implements Parcelable {
         this.comments = comments;
     }
 
-
-
     public List<String> getImage_urls() {
         return image_urls;
     }
 
     public void setImage_urls(List<String> image_urls) {
         this.image_urls = image_urls;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(chipNumber);
-        dest.writeString(name);
-        dest.writeString(gender);
-        dest.writeString(birthday);
-        dest.writeString(age);
-        dest.writeString(arrivedToTheShelterAt);
-        dest.writeString(timeAtTheShelter);
-        dest.writeString(friends);
-        dest.writeString(shortHistory);
-        dest.writeString(character);
-        dest.writeString(getsAlongWithDogs);
-        dest.writeString(getsAlongWithChildren);
-        dest.writeString(pottyTrained);
-        dest.writeString(walkingWithALeash);
-        dest.writeString(status);
-        dest.writeString(adoptersName);
-        dest.writeString(adoptersPhoneNumber);
-        dest.writeString(comments);
-        dest.writeStringList(image_urls);
     }
 }
