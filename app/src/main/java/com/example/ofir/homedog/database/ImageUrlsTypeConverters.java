@@ -1,4 +1,4 @@
-package com.example.ofir.homedog.database.localDB;
+package com.example.ofir.homedog.database;
 
 import com.example.ofir.homedog.database.Dog;
 import com.google.gson.Gson;

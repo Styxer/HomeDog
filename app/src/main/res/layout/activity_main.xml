@@ -6,13 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.list.MainActivity">
 
+
+    <ProgressBar
+        android:id="@+id/paging_loading"
+        style="?android:attr/showAsAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:background="@android:color/transparent"
+        android:indeterminate="true"
+        tools:ignore="NegativeMargin" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_dog_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/dog_list_item"
-        />
-
+        android:layout_below="@+id/paging_loading"
+        android:clipToPadding="false"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:paddingRight="16dp"
+        tools:listitem="@layout/dog_list_item" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

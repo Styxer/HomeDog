@@ -7,22 +7,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.ofir.homedog.database.Dog;
 import com.example.ofir.homedog.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
+
 
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference dogRef = db.collection("HomeDog");
 
     private MainActivityAdapter adapter;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -48,25 +54,40 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         db.setFirestoreSettings(settings);
 
-        setUpRecyclerView();
+        progressBar = findViewById(R.id.paging_loading);
+
+        setUpRecyclerView("");
 
 
     }
 
-    private void setUpRecyclerView() {
+    private void setUpRecyclerView(String searchText) {
 
-        Query query = dogRef.orderBy("name", Query.Direction.DESCENDING);
+        Query query = dogRef.orderBy("name", Query.Direction.ASCENDING).startAt(searchText).endAt(searchText + "\uf8ff");
 
-        FirestoreRecyclerOptions<Dog> options = new FirestoreRecyclerOptions.Builder<Dog>()
-                .setQuery(query, Dog.class)
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(5)
+                .setPageSize(5)
                 .build();
 
-        adapter = new MainActivityAdapter(options, this);
+
+
+        FirestorePagingOptions<Dog> options = new FirestorePagingOptions.Builder<Dog>()
+                .setLifecycleOwner(this)
+                .setQuery(query, config, Dog.class)
+                .build();
+
+        /*FirestoreRecyclerOptions<Dog> options = new FirestoreRecyclerOptions.Builder<Dog>()
+                .setQuery(query, Dog.class)
+                .build();*/
+
+        adapter = new MainActivityAdapter(options,progressBar, this);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_dog_list);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(this, 2, 10, true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
 
@@ -76,16 +97,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.startListening();
+        //adapter.startListening();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+      //  adapter.stopListening();
     }
 
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+   /* public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;
         private int spacing;
@@ -120,13 +141,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
+    *//**
      * Converting dp to pixel
-     */
+     *//*
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
+    }*/
 }
 
 
