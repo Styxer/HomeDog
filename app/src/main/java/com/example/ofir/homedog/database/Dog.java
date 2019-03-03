@@ -4,8 +4,16 @@ import com.google.firebase.Timestamp;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "dog_table")
 public class Dog {
+
+    @PrimaryKey(autoGenerate = false)
+    @NonNull
+    private long id;
 
     private String breed;
 

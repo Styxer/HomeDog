@@ -1,23 +1,35 @@
 package com.example.ofir.homedog.ui.list;
 
 
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import com.example.ofir.homedog.database.Dog;
 import com.example.ofir.homedog.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 
@@ -25,6 +37,7 @@ import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
@@ -32,7 +45,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -42,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     private MainActivityAdapter adapter;
     private ProgressBar progressBar;
+
+
 
 
     @Override
@@ -59,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setUpRecyclerView("");
 
 
+
     }
 
     private void setUpRecyclerView(String searchText) {
@@ -69,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 .setEnablePlaceholders(false)
                 .setPrefetchDistance(5)
                 .setPageSize(5)
+                .setInitialLoadSizeHint(6)
                 .build();
-
 
 
         FirestorePagingOptions<Dog> options = new FirestorePagingOptions.Builder<Dog>()
@@ -82,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 .setQuery(query, Dog.class)
                 .build();*/
 
-        adapter = new MainActivityAdapter(options,progressBar, this);
+        adapter = new MainActivityAdapter(options, progressBar, this);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_dog_list);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
@@ -103,51 +119,39 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-      //  adapter.stopListening();
+        //  adapter.stopListening();
     }
 
-   /* public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
 
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView)menuItem.getActionView();
 
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+      //  SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        searchView.setQueryHint("חפש");
+        searchView.setOnQueryTextListener(this);
 
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
+        return  true;
     }
 
-    *//**
-     * Converting dp to pixel
-     *//*
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }*/
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        setUpRecyclerView(query);
+
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }
 
 

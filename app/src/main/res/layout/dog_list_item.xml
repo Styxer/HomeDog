@@ -34,13 +34,9 @@
                 android:id="@+id/image_view_dog_list_image"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:src="@drawable/male_dog"
-
-
                 android:layout_centerHorizontal="true"
                 app:civ_border_color="#3BBEE9"
-
-
+                android:src="@drawable/ic_launcher_background"
                 />
 
             <TextView

@@ -148,15 +148,6 @@ public class MainActivityAdapter extends FirestorePagingAdapter<Dog, MainActivit
         }
     }
 
-    private void firebaseUserSearch(String searchText) {
-        Query query = dogRef.orderBy("fname").startAt(searchText).endAt(searchText + "\uf8ff");
-
-
-
-
-    }
-
-
 
     class DogHolder extends RecyclerView.ViewHolder {
 

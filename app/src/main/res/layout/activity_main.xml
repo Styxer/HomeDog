@@ -7,26 +7,42 @@
     tools:context=".ui.list.MainActivity">
 
 
-    <ProgressBar
-        android:id="@+id/paging_loading"
-        style="?android:attr/showAsAction"
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-6dp"
-        android:background="@android:color/transparent"
-        android:indeterminate="true"
-        tools:ignore="NegativeMargin" />
+        android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_dog_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/paging_loading"
-        android:clipToPadding="false"
-        android:paddingLeft="16dp"
-        android:paddingTop="8dp"
-        android:paddingRight="16dp"
-        tools:listitem="@layout/dog_list_item" />
+        <ProgressBar
+            android:id="@+id/paging_loading"
+            style="?android:attr/showAsAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
+            android:background="@android:color/transparent"
+            android:indeterminate="true"
+            tools:ignore="NegativeMargin"
+            android:layout_margin="8dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_dog_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/paging_loading"
+            android:clipToPadding="false"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            tools:listitem="@layout/dog_list_item"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"/>
+
+    </LinearLayout>
+
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
